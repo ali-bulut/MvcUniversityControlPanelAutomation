@@ -1,0 +1,132 @@
+﻿@using EntityLayer.Models.ViewModel
+@model TeacherLessonViewModel
+@{
+    ViewBag.Title = "Ders ve Bölüm Ekleme";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $("#addLesson").click(function () {
+            var DepartmentID = $("#department option:selected").val();
+            var LessonName = $("#LessonName").val();
+            $.ajax({
+                type: "POST",
+                url: "/Director/AddLesson",
+                dataType: "json",
+                data: { LessonName: LessonName, DepartmentID: DepartmentID },
+                success: function (json) {
+                    if (json.isRedirect) {
+                        window.location.href = json.redirectUrl;
+                        alert(json.message);
+                    }
+                }
+            });
+        });
+    });
+</script>
+@foreach (var director in Model.Director)
+{
+    @section img{
+        <img src="~/DirectorImages/@director.Image" alt="">
+    }
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Anasayfa</a><i class="fa fa-angle-right"></i>Ders & Bölüm Ekleme</li>
+</ol>
+
+<div class="w3l-table-info">
+    <h2>Bütün Bölümler & Dersler</h2>
+    <table id="table">
+        <thead>
+            <tr>
+                <th>Bölüm Adı</th>
+                <th>Dersleri</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Department)
+            {
+
+            <tr>
+                <td>@item.DepartmentName</td>
+                <td>
+                    <select>
+                        @foreach (var item2 in Model.Lesson.Where(x => x.DepartmentID == item.DepartmentID))
+                            {
+                            <option value="@item2.LessonID">@item2.LessonName</option>
+
+                            }
+                    </select>
+                </td>
+            </tr>
+
+            }
+        </tbody>
+    </table>
+</div> @*Bölüm ve Ders Listesi *@
+<form action="/Director/AddDepartment" method="post">
+    <div class="w3l-table-info">
+        <h2>Bölüm Ekle</h2>
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Bölüm Adı</th>
+                    <th>Ekle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="text" class="form-control" placeholder="Bölüm Adı" name="DepartmentName" />
+                    </td>
+                    <td>
+                        <input type="submit" class="btn btn-primary btn-block" value="Kaydet" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form> @*Bölüm Ekleme *@
+<form action="/Director/AddLesson" method="post">
+    <div class="w3l-table-info">
+        <h2>Ders Ekle</h2>
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Ders Adı</th>
+                    <th>Bölüm</th>
+                    <th>Ekle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="text" class="form-control" placeholder="Ders Adı" id="LessonName" name="LessonName" />
+                    </td>
+                    <td>
+                        <select id="department">
+                            @foreach (var item in Model.Department)
+                            {
+                                <option value="@item.DepartmentID">@item.DepartmentName</option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit" id="addLesson" class="btn btn-primary btn-block" value="Kaydet" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</form> @*Ders Ekleme *@
+
+<div class="inner-block">
+
+</div>
+<!--inner block end here-->
+<!--copy rights start here-->
+<div class="copyrights">
+    <p>© @DateTime.Now.Year Tüm Hakları Saklıdır | Ali Bulut Tarafından Dizayn Edildi</p>
+</div>

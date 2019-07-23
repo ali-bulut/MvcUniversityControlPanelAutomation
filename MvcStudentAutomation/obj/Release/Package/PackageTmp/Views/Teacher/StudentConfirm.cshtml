@@ -1,0 +1,208 @@
+﻿@using EntityLayer.Models.ViewModel
+@model StudentConfirmViewModel
+@using MvcStudentAutomation.Resources
+@{
+
+    ViewBag.Title = "Öğrenci Onay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@foreach (var teacher in Model.Teacher)
+{
+    @section img{
+        <img src="~/TeacherImages/@teacher.Image" alt="">
+    }
+}
+<script src="~/Scripts/jquery-3.2.1.min.js"></script>
+<script src="~/Scripts/jquery.session.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#onay").click(function () {
+            if (confirm("Öğrenciyi Onaylamak İstediğinize Emin Misiniz?")) {
+                var ID = $(this).attr("name");
+                $.ajax({
+                    type: "POST",
+                    url: "/Teacher/Confirm/" + ID,
+                    dataType: "JSON",
+                    success: function (data) {
+
+                    }
+                });
+
+                $(this).closest('tr').remove();
+            }
+
+        });
+    });
+
+    $(document).ready(function () {
+        $("#reddet").click(function () {
+            if (confirm("Öğrencinin Başvurusunu Reddetmek İstediğinize Emin Misiniz?")) {
+                var ID = $(this).attr("name");
+                $.ajax({
+                    type: "POST",
+                    url: "/Teacher/Refuse/" + ID,
+                    dataType: "JSON",
+                    success: function (data) {
+
+                    }
+                });
+
+                $(this).closest('tr').remove();
+            }
+        });
+    });
+
+</script>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">@Resource.Anasayfa</a><i class="fa fa-angle-right"></i>@Resource.Galeri</li>
+</ol>
+<div class="agile-grids">
+
+    <div class="agile-tables">
+        <div class="w3l-table-info">
+            <table id="table">
+                <thead>
+                    <tr>
+                        <th>Adı</th>
+                        <th>Soyadı</th>
+                        <th>Doğum Yeri</th>
+                        <th>Doğum Tarihi</th>
+                        <th>TC Kimlik No</th>
+                        <th>Başvuru Tarihi</th>
+                        <th>Onay Sıranız</th>
+                        <th>Onay</th>
+                        <th>Red</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.StudentConfirmation != null)
+                    {
+                        foreach (var item in Model.StudentConfirmation)
+                        {
+                            foreach (var item2 in Model.StudentRegistration)
+                            {
+                                if (item.StudentRegisterNo == item2.StudentRegisterNo && item.Confirmation != true)
+                                {
+                                    <tr>
+                                        <td>@item.StudentRegistration.Name</td>
+                                        <td>@item.StudentRegistration.Surname</td>
+                                        <td>@item.StudentRegistration.BirthPlace</td>
+                                        <td>@string.Format("{0:d}", item.StudentRegistration.BirthDate)</td>
+                                        <td>@item.StudentRegistration.TrIdNo</td>
+                                        <td>@string.Format("{0:D}", item.StudentRegistration.ApplicationDate)</td>
+                                        <td>@item.Row</td>
+                                        <td>
+                                            <div class="wrap">
+                                                <div class="bg-effect">
+                                                    <ul class="bt-list">
+                                                        <li>
+                                                            <a href="#" name="@item.StudentRegisterNo" id="onay" class="hvr-icon-bounce col-22">Onayla</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="wrap">
+                                                <div class="bg-effect">
+                                                    <ul class="bt-list">
+                                                        <li>
+                                                            <a href="#" name="@item.StudentRegisterNo" id="reddet" class="hvr-icon-sink-away col-8">Reddet</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                        }
+                    }
+                    else
+                    {
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+<!-- script-for sticky-nav -->
+<!-- /script-for sticky-nav -->
+<!--inner block start here-->
+<div class="inner-block">
+
+</div>
+<!--inner block end here-->
+<!--copy rights start here-->
+<div class="copyrights">
+    <p>© @DateTime.Now.Year @Resource.Footer</p>
+</div>
+
+
+
+@* <form action="#" method="post">
+        <div class="username">
+            <span class="username">@Resource.Adi:</span>
+            <input type="text" name="Name" id="Name" class="name" placeholder="" required="">
+            <div class="clearfix"></div>
+        </div>
+        <div class="username">
+            <span class="username">@Resource.Soyad:</span>
+            <input type="text" name="Surname" id="Surname" class="name" placeholder="" required="">
+            <div class="clearfix"></div>
+        </div>
+        <div class="username">
+            <span class="username">@Resource.DogumYer:</span>
+            <input type="text" name="BirthPlace" id="BirthPlace" class="name" placeholder="" required="">
+            <div class="clearfix"></div>
+        </div>
+        <div class="username" style="margin-bottom:35px;">
+            <span class="username">@Resource.DogumTarih:</span>
+            <input type="date" id="BirthDate" style="width:404px; height:42px;" name="birthdate" class="form-control" placeholder="" required="">
+            <div class="clearfix"></div>
+        </div>
+        <div class="username">
+            <span class="username">@Resource.TcNo:</span>
+            <input type="text" name="TrIdNo" class="name" id="TrIdNo" placeholder="" required="">
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="username" style="margin-bottom:35px;">
+            <span class="username">@Resource.Bolum:</span>
+            <select name="DepartmentID" id="DepartmentID" class="form-control" style="width:404px; height:42px; font-size:13px; line-height:42px;">
+                @foreach (var item in Model)
+                {
+                    <option value="@item.DepartmentID">@item.DepartmentName</option>
+                }
+            </select>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="username">
+            <span class="username">@Resource.Resim:</span>
+            <input type="file" name="Image" required="" accept="image/*" id="image" class="name" placeholder="">
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="username">
+            <span class="username">@Resource.Email:</span>
+            <input type="email" name="Email" class="name" id="Email" placeholder="" required="">
+            <div class="clearfix"></div>
+        </div>
+        <div class="password-agileits">
+            <span class="username">@Resource.Sifre:</span>
+            <input type="password" name="Password" class="name" id="Password" placeholder="" required="">
+            <div class="clearfix"></div>
+        </div>
+        <div class="login-w3">
+            <input type="submit" class="login" id="Register" value="@Resource.KayıtOl">
+        </div>
+        <div class="clearfix"></div>
+    </form>
+
+*@

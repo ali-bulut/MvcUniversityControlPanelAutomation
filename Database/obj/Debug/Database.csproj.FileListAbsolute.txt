@@ -1,0 +1,10 @@
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\Database\obj\Debug\Database.csprojResolveAssemblyReference.cache
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\Database\bin\Debug\Database.dll.config
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\Database\bin\Debug\Database.dll
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\Database\bin\Debug\Database.pdb
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\Database\bin\Debug\EntityFramework.dll
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\Database\bin\Debug\EntityFramework.SqlServer.dll
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\Database\bin\Debug\EntityFramework.xml
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\Database\bin\Debug\EntityFramework.SqlServer.xml
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\Database\obj\Debug\Database.dll
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\Database\obj\Debug\Database.pdb

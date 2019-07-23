@@ -1,0 +1,6 @@
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\MailSendLayer\bin\Debug\MailSendLayer.dll
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\MailSendLayer\bin\Debug\MailSendLayer.pdb
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\MailSendLayer\obj\Debug\MailSendLayer.dll
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\MailSendLayer\obj\Debug\MailSendLayer.pdb
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\MailSendLayer\obj\Debug\MailSendLayer.csprojAssemblyReference.cache
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\MailSendLayer\obj\Debug\MailSendLayer.csproj.CoreCompileInputs.cache

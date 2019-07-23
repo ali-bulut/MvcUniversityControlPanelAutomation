@@ -1,0 +1,228 @@
+﻿@using EntityLayer.Models.ViewModel
+@model TeacherLessonViewModel
+@using MvcStudentAutomation.Resources
+@{
+
+    ViewBag.Title = "Sınav Notları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-3.2.1.min.js"></script>
+<script src="~/Scripts/jquery.session.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#Lesson").change(function () {
+            var lesson_id = $("#Lesson option:selected").val();
+            var StudentName = $("#StudentName");
+            StudentName.empty();
+            var ExamForm = $("#ExamForm");
+            ExamForm.css("display", "none");
+            if (lesson_id != null && lesson_id != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "/Teacher/BringStudents",
+                    dataType: "JSON",
+                    data: { lesson_id: lesson_id },
+
+                    success: function (students) {
+                        var student = $("#students");
+                        var exam1 = $("#exam1");
+                        var exam2 = $("#exam2");
+                        student.empty();
+                        student.append($('<option selected disabled></option>').val("a").html("Öğrenci Numarasını Seçiniz"));
+                        $.each(students, function (index, student) {
+                           
+                            $("#students").append($('<option/>', {
+                                value: student.StudentNumber,
+                                text: student.StudentNumber
+                            }));
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        alert("hata");
+                    },
+                    beforeSend: function () {
+
+                    },
+                    complete: function () {
+
+                    }
+                });
+            }
+        });
+
+        $("#students").change(function () {
+            var ID = $("#students option:selected").val();
+            $("#ExamForm").show();
+            if (ID != null && ID != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "/Teacher/BringStudentName",
+                    dataType: "JSON",
+                    data: { ID: ID },
+
+                    success: function (studentName) {
+                        var StudentName = $("#StudentName");
+                        StudentName.empty();
+
+                        $.each(studentName, function (index, name) {
+                            $("#StudentName").text(name.Name + " " + name.Surname);
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        alert("hata");
+                    },
+                    beforeSend: function () {
+
+                    },
+                    complete: function () {
+
+                    }
+                });
+
+                
+            }
+        });
+
+        $("#students").change(function () {
+            var ID = $("#students option:selected").val();
+            $.session.set("LessonID", ID);
+            $("#ExamForm").show();
+            if (ID != null && ID != "") {
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/Teacher/BringExamPoint",
+                    dataType: "JSON",
+                    data: { ID: ID },
+
+                    success: function (students) {
+                        var student = $("#students");
+                        var exam1 = $("#exam1");
+                        var exam2 = $("#exam2");
+                        $.each(students, function (index, student) {
+                            if (student.Exam1 != null && student.StudentNumber == parseInt(ID)) {
+                                exam1.val(student.Exam1);
+                                    exam1.attr("disabled", true);
+                            }
+                            else {
+                                exam1.val("");
+                                exam1.attr("disabled", false);
+                            }
+                            if (student.Exam2 != null && student.StudentNumber == parseInt(ID)) {
+                                exam2.val(student.Exam2);
+                                exam2.attr("disabled", true);
+                            }
+                            else {
+                                exam2.val("");
+                                exam2.attr("disabled", false);
+                            }
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        alert("hata");
+                    },
+                    beforeSend: function () {
+
+                    },
+                    complete: function () {
+
+                    }
+                });
+
+            }
+        });
+
+
+    });
+</script>
+@foreach (var teacher in Model.Teacher.Where(x => x.TeacherID == Convert.ToInt32(Session["ID"])))
+{
+    @section img{
+            <img src="~/TeacherImages/@teacher.Image" alt="">
+        }
+
+}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">@Resource.Anasayfa</a><i class="fa fa-angle-right"></i>Sınav Notu Girişi</li>
+</ol>
+
+@*@using (Html.BeginForm("ExamNote", "Teacher", FormMethod.Post))
+{*@
+    <div class="grid-form1">
+        <div class="tab-content">
+            <div class="tab-pane active" id="horizontal-form">
+                <form class="form-horizontal" id="myForm" method="post" action="/Teacher/ExamNote">
+                    <div class="form-group">
+                        <label for="selector1" class="col-sm-2 control-label">Ders Seçin</label>
+                        <div class="col-sm-8">
+                            <select name="LessonID" id="Lesson" class="form-control1">
+                                <option selected disabled>Dersi Seçiniz</option>
+                                @foreach (var item in Model.TeacherLesson)
+                                {
+                                    <option value="@item.Lesson.LessonID">@item.Lesson.LessonName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="selector1" class="col-sm-2 control-label">Öğrenci Numarası</label>
+                        <div class="col-sm-8">
+                            <select id="students" class="form-control1">
+                                <option selected disabled>Öğrenciyi Seçiniz</option>
+                            </select>
+                        </div> <br />
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Öğrenci Adı: </label>
+                        <label class="control-label" id="StudentName" style="margin-right:100px;"></label>
+                    </div>
+
+                    <div class="grid-form1" id="ExamForm" style="display:none">
+
+
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label hor-form">1.Sınav Notu</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" id="exam1" name="Exam1" placeholder="1.Sınav">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label hor-form">2.Sınav Notu</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" id="exam2" name="Exam2" placeholder="2.Sınav">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn-primary btn">Kaydet</button>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+<!--inner block start here-->
+<div class="inner-block">
+
+</div> <br />
+<!--inner block end here-->
+<!--copy rights start here-->
+<div class="copyrights">
+    <p>© @DateTime.Now.Year @Resource.Footer</p>
+</div>
+<!--COPY rights end here-->
+@*</div>
+    </div>
+                </div>*@

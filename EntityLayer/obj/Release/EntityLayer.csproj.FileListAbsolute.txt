@@ -1,0 +1,10 @@
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\bin\Release\EntityLayer.dll.config
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\bin\Release\EntityLayer.dll
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\bin\Release\EntityLayer.pdb
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\bin\Release\EntityFramework.dll
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\bin\Release\EntityFramework.SqlServer.dll
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\bin\Release\EntityFramework.xml
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\bin\Release\EntityFramework.SqlServer.xml
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\obj\Release\EntityLayer.csprojResolveAssemblyReference.cache
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\obj\Release\EntityLayer.dll
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\obj\Release\EntityLayer.pdb

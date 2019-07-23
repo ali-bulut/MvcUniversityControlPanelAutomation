@@ -1,0 +1,12 @@
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\DBCreator\bin\Debug\DBCreator.exe.config
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\DBCreator\bin\Debug\DBCreator.exe
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\DBCreator\bin\Debug\DBCreator.pdb
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\DBCreator\bin\Debug\EntityFramework.dll
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\DBCreator\bin\Debug\EntityFramework.SqlServer.dll
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\DBCreator\bin\Debug\EntityLayer.dll
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\DBCreator\bin\Debug\EntityLayer.pdb
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\DBCreator\bin\Debug\EntityFramework.xml
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\DBCreator\bin\Debug\EntityFramework.SqlServer.xml
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\DBCreator\obj\Debug\DBCreator.csprojResolveAssemblyReference.cache
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\DBCreator\obj\Debug\DBCreator.exe
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\DBCreator\obj\Debug\DBCreator.pdb

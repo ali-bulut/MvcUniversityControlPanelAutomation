@@ -1,0 +1,113 @@
+﻿@using EntityLayer.Models.ViewModel
+@model TeacherLessonViewModel
+@{
+    ViewBag.Title = "Öğretmen Başvuruları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $(".Onayla").click(function () {
+            if (confirm("Öğretmeni Onaylamk İstediğinize Emin Misiniz?")) {
+                var TeacherID = $(this).attr("id");
+                $.ajax({
+                    url: "/Director/ConfirmTeacher",
+                    type: "POST",
+                    dataType: "json",
+                    data: { TeacherID: TeacherID },
+                    success: function (json) {
+                        if (json.isRedirect) {
+                            alert(json.message);
+                            window.location.href = json.redirectUrl;
+                        }
+                        if (json.isRedirect == false) {
+                            alert(json.message);
+                        }
+
+                    }
+                });
+            }
+
+        });
+
+        $(".Reddet").click(function () {
+            if (confirm("Öğretmeni Reddetmek İstediğinize Emin Misiniz?")) {
+                var TeacherID = $(this).attr("id");
+                $.ajax({
+                    url: "/Director/RefusalTeacher",
+                    type: "POST",
+                    dataType: "json",
+                    data: { TeacherID: TeacherID },
+                    success: function (json) {
+                        if (json.isRedirect) {
+                            alert(json.message);
+                            window.location.href = json.redirectUrl;
+                        }
+                        if (json.isRedirect == false) {
+                            alert(json.message);
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+@foreach (var director in Model.Director)
+{
+    @section img{
+    <img src="~/DirectorImages/@director.Image" alt="">
+    }
+}
+   
+
+
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Anasayfa</a><i class="fa fa-angle-right"></i>Öğretmen Başvuruları</li>
+</ol>
+
+<div class="w3l-table-info">
+    <h2>Bütün Başvurular</h2>
+    <table id="table">
+        <thead>
+            <tr>
+                <th>Öğretmen Adı</th>
+                <th>Tc Kimlik No</th>
+                <th>Bölüm</th>
+                <th>Email</th>
+                <th>Başvuru Tarihi</th>
+                <th>Onayla</th>
+                <th>Reddet</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.TeacherRegistration)
+            {
+                foreach (var item2 in Model.Department.Where(x=>x.DepartmentID==item.DepartmentID))
+                {
+                    <tr>
+                        <td>@item.Name @item.Surname</td>
+                        <td>@item.TrIdNo</td>
+                        <td>@item2.DepartmentName</td>
+                        <td>@item.Email</td>
+                        <td>@string.Format("{0:d}",item.ApplicationDate)</td>
+                        <td><a href="#" class="Onayla" id="@item.TeacherRegisterNo">Onayla</a></td>
+                        <td><a href="#" class="Reddet" id="@item.TeacherRegisterNo">Reddet</a></td>
+                    </tr>
+                    break;
+                } 
+
+
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="inner-block">
+
+</div>
+<div class="copyrights">
+    <p>© @DateTime.Now.Year Tüm Hakları Saklıdır | Ali Bulut Tarafından Dizayn Edildi</p>
+</div>

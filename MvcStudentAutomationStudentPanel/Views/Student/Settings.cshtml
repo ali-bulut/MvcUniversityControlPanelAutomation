@@ -1,0 +1,69 @@
+﻿@using EntityLayer.Models
+@model Student
+@{
+    ViewBag.Title = "Ayarlar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+} 
+
+    @section img{
+        <img src="~/StudentImages/@Model.Image" alt="">
+    }
+    <div class="main-wthree">
+        <div class="container">
+            <div class="sin-w3-agile">
+                <h2>Profil</h2>
+                <form action="#" method="post">
+                    <div class="username">
+                        <span class="username">Adı:</span>
+                        <input type="text" name="Name" id="Name" class="name" value="@Model.Name" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="username">
+                        <span class="username">Soyadı:</span>
+                        <input type="text" name="Surname" id="Surname" value="@Model.Surname" class="name" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="username">
+                        <span class="username">Dogum Yeri:</span>
+                        <input type="text" name="BirthPlace" id="BirthPlace" value="@Model.BirthPlace" class="name" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="username">
+                        <span class="username">Tc Kimlik No:</span>
+                        <input type="text" name="TrIdNo" class="name" disabled id="TrIdNo" value="@Model.TrIdNo" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="username">
+                        <span class="username">Resim:</span>
+                        <input type="file" name="Image" value="@Model.Image" accept="image/*" id="image" class="name" placeholder="">
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="username">
+                        <span class="username">Email:</span>
+                        <input type="email" name="Email" class="name" value="@Model.Email" id="Email" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="password-agileits">
+                        <span class="username">Şifre:</span>
+                        <input type="password" name="Password" class="name" value="@Model.Password" id="Password" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="login-w3">
+                        <input type="submit" class="login" id="Register" value="Kaydet">
+                        @if (TempData["Message"] != null)
+                        {
+                            <script>alert("@TempData["Message"]")</script>
+                        }
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
+                <br /> <br />
+            </div>
+        </div>
+    </div>
+    <br /> <br />
+
+
+

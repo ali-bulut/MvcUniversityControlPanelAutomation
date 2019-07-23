@@ -1,0 +1,282 @@
+﻿@using EntityLayer.Models.ViewModel
+@model TeacherLessonViewModel
+@{
+    ViewBag.Title = "Yönetici Paneli";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!--four-grids here-->
+@foreach (var director in Model.Director.Where(x => x.DirectorID == Convert.ToInt32(Session["DirectorID"])))
+{
+    @section img{
+        <img src="~/DirectorImages/@director.Image" alt="">
+    }
+}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/"></a>Anasayfa<i class="fa fa-angle-right"></i></li>
+</ol>
+<div class="four-grids">
+    <div class="col-md-3 four-grid">
+
+        @* Modal *@
+        <div class="modal fade" id="OgrenciListesi" tabindex="-1" role="dialog" aria-labelledby="OgrenciListesiLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                        <h2 class="modal-title" id="OgrenciListesiLabel" style="color:black">Okuldaki Toplam Öğrenci Listesi</h2>
+
+                    </div>
+                    <div class="modal-body">
+
+                        @* Tablo *@
+                        <div class="w3l-table-info">
+                            <h2>Öğrenciler</h2>
+                            <table id="table">
+                                <thead>
+                                    <tr>
+                                        <th>Öğrenci Adı</th>
+                                        <th>Öğrenci Numarası</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Student)
+                                    {
+                                        <tr>
+                                            <td>@item.Name @item.Surname</td>
+                                            <td>@item.StudentNumber</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="four-agileits" data-toggle="modal" data-target="#OgrenciListesi">
+            <div class="icon">
+                <i class="glyphicon glyphicon-user" aria-hidden="true"></i>
+
+            </div>
+            <div class="four-text">
+                <h3>Okuldaki Toplam <br /> Öğrenci Sayısı</h3>
+                <h4>@Model.Student.Count()</h4>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-3 four-grid">
+
+        @* Modal *@
+
+        <div class="modal fade" id="DersListesi" tabindex="-1" role="dialog" aria-labelledby="DersListesiLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h2 class="modal-title" id="DersListesiLabel" style="color:black">Başvurusu Beklemede Olan Öğrencilerin Listesi</h2>
+                    </div>
+                    <div class="modal-body">
+
+                        @* Tablo *@
+                        <div class="w3l-table-info">
+                            <h2>Öğrenciler</h2>
+                            <table id="table">
+                                <thead>
+                                    <tr>
+                                        <th>Öğrenci Adı</th>
+                                        <th>Bölümü</th>
+                                        <th>Başvuru Tarihi</th>
+                                        <th>Durum</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.StudentRegistration)
+                                    {
+                                        if (item.Status != true)
+                                        {
+                                            <tr>
+                                                <td>@item.Name @item.Surname</td>
+                                                <td>@item.Department.DepartmentName</td>
+                                                <td>@string.Format("{0:d}",item.ApplicationDate)</td>
+                                                @if (item.Status == null)
+                                                {
+                                                    <td>Öğretmen Onayına Sunulması Bekleniyor</td>
+                                                }
+                                                @if (item.Status == false)
+                                                {
+                                                    <td>Öğretmen Onayları Bekleniyor</td>
+                                                }
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="four-agileinfo" data-toggle="modal" data-target="#DersListesi">
+            <div class="icon">
+                <i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i>
+
+            </div>
+            <div class="four-text">
+                <h3>Bekleyen Öğrenci <br /> Başvuru Sayısı</h3>
+                <h4>@Model.StudentRegistration.Count()</h4>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-3 four-grid">
+
+        @* Modal *@
+
+        <div class="modal fade" id="BolumListesi" tabindex="-1" role="dialog" aria-labelledby="BolumListesiLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h2 class="modal-title" id="BolumListesiLabel" style="color:black">Okuldaki Bölümlerin Listesi</h2>
+                    </div>
+                    <div class="modal-body">
+
+                        @* Tablo *@
+                        <div class="w3l-table-info">
+                            <h2>Bölümler</h2>
+                            <table id="table">
+                                <thead>
+                                    <tr>
+                                        <th>Bölüm Adı</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Department)
+                                    {
+                                        <tr>
+                                            <td>@item.DepartmentName</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="four-w3ls" data-toggle="modal" data-target="#BolumListesi">
+            <div class="icon">
+                <i class="glyphicon glyphicon-folder-open" aria-hidden="true"></i>
+            </div>
+            <div class="four-text">
+                <h3>Okuldaki Toplam <br /> Bölüm Sayısı</h3>
+                <h4>@Model.Department.Count()</h4>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-3 four-grid">
+
+        @* Modal *@
+
+        <div class="modal fade" id="OgretmenListesi" tabindex="-1" role="dialog" aria-labelledby="OgretmenListesiLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h2 class="modal-title" id="OgretmenListesiLabel" style="color:black">Bölümdeki Öğretmenlerin Listesi</h2>
+                    </div>
+                    <div class="modal-body">
+
+                        @* Tablo *@
+                        <div class="w3l-table-info">
+                            <h2>Öğretmenler</h2>
+                            <table id="table">
+                                <thead>
+                                    <tr>
+                                        <th>Öğretmenin Adı</th>
+                                        <th>Öğretmenin Numarası</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Teacher)
+                                    {
+                                        <tr>
+                                            <td>@item.Name @item.Surname</td>
+                                            <td>@item.TeacherID</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="four-wthree" data-toggle="modal" data-target="#OgretmenListesi">
+            <div class="icon">
+                <i class="glyphicon glyphicon-briefcase" aria-hidden="true"></i>
+            </div>
+            <div class="four-text">
+                <h3>Okuldaki Toplam <br /> Öğretmen Sayısı</h3>
+                
+                    <h4>@Model.Teacher.Count()</h4>
+                
+
+            </div>
+
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<!--//four-grids here-->
+<!--agileinfo-grap-->
+<!--//agileinfo-grap-->
+<!--photoday-section-->
+<!--//photoday-section-->
+<!--w3-agileits-pane-->
+<div class="w3-agileits-pane">
+
+    <div class="clearfix"></div>
+</div>
+<!--//w3-agileits-pane-->
+<!-- script-for sticky-nav -->
+<!-- /script-for sticky-nav -->
+<!--inner block start here-->
+<div class="inner-block">
+
+</div>
+<!--inner block end here-->
+<!--copy rights start here-->
+<div class="copyrights">
+    <p>© @DateTime.Now.Year Tüm Hakları Saklıdır | Ali Bulut Tarafından Dizayn Edildi</p>
+</div>
+<!--COPY rights end here-->
+@*</div>
+        </div>
+
+
+    </div>*@

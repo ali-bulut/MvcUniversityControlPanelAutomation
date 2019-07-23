@@ -1,0 +1,219 @@
+﻿@using EntityLayer.Models
+@model IEnumerable<Department>
+@using MvcStudentAutomation.Resources
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@Resource.KayıtOl</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+    <!-- Bootstrap Core CSS -->
+
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Register").click(function () {
+
+                var formData = new FormData();
+                var totalFiles = document.getElementById("image").files.length;
+                for (var i = 0; i < totalFiles; i++) {
+                    var file = document.getElementById("image").files[i];
+
+                    formData.append("image", file);
+                }
+
+                var Name = $("#Name").val();
+                var Surname = $("#Surname").val();
+                var BirthPlace = $("#BirthPlace").val();
+                var BirthDate = $("#BirthDate").val();
+                var TrIdNo = $("#TrIdNo").val();
+                var DepartmentID = $("#DepartmentID").val();
+                var Email = $("#Email").val();
+                var Password = $("#Password").val();
+
+
+                formData.append("Name", Name);
+                formData.append("Surname", Surname);
+                formData.append("BirthPlace", BirthPlace);
+                formData.append("BirthDate", BirthDate);
+                formData.append("TrIdNo", TrIdNo);
+                formData.append("DepartmentID", DepartmentID);
+                formData.append("Email", Email);
+                formData.append("Password", Password);
+
+                $.ajax({
+                    type: "POST",
+                    url: '/Login/Register',
+                    data: formData,
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        alert('Öğretmen Başarıyla Eklendi.');
+                    },
+                    error: function (error) {
+                        alert("Öğretmen Eklenemedi.");
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            @{
+                if (Request.Cookies["Name"] != null)
+                {
+                    var c = new HttpCookie("Name");
+                    c.Expires = DateTime.Now.AddDays(-1);
+                    Response.Cookies.Add(c);
+                }
+            }
+        });
+    </script>
+
+
+
+    <link href="~/Content/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+    <script src="~/Scripts/js/bootstrap.js"></script>
+    <link href="~/Content/DatePicker/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <script src="~/Scripts/DatePicker/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/DatePicker/bootstrap-datepicker.tr.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="~/Content/css/style.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="~/Content/css/morris.css" type="text/css" />
+    <link href="~/Content/css/basictable.css" rel="stylesheet" />
+    <link href="~/Content/css/icon-font.min.css" rel="stylesheet" />
+    <link href="~/Content/css/jqcandlestick.css" rel="stylesheet" />
+    <link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/css/lightbox.css" rel="stylesheet" />
+    <link href="~/Content/css/monthly.css" rel="stylesheet" />
+    <link href="~/Content/css/table-style.css" rel="stylesheet" />
+
+    <!-- Graph CSS -->
+    <link href="~/Content/css/font-awesome.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="~/Scripts/js/jquery-2.1.4.min.js"></script>
+
+
+    <script src="~/Scripts/js/jquery.cookie.js"></script>
+    <script src="~/Scripts/Cookie.js"></script>
+    <script src="~/Scripts/DatePicker/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/DatePicker/bootstrap-datepicker.tr.min.js"></script>
+    <script src="~/Scripts/js/Chart.js"></script>
+    <script src="~/Scripts/js/jquery-ui.js"></script>
+    <script src="~/Scripts/js/jquery.basictable.min.js"></script>
+    <script src="~/Scripts/js/jquery.jqcandlestick.min.js"></script>
+    <script src="~/Scripts/js/monthly.js"></script>
+    @*<script src="~/Scripts/js/lightbox-plus-jquery.min.js"></script>*@
+    <!-- //jQuery -->
+    <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <!-- lined-icons -->
+    <link rel="stylesheet" href="~/Content/css/icon-font.min.css" type='text/css' />
+    <!-- //lined-icons -->
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Content/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+    <!-- Custom CSS -->
+    <link href="~/Content/css/style.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="~/Content/css/morris.css" type="text/css" />
+    <!-- Graph CSS -->
+    <link href="~/Content/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/css/jquery-ui.css">
+    <!-- jQuery -->
+    <script src="~/Scripts/js/jquery-2.1.4.min.js"></script>
+    <!-- //jQuery -->
+    <link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <!-- lined-icons -->
+    <link rel="stylesheet" href="~/Content/css/icon-font.min.css" type='text/css' />
+    <!-- //lined-icons -->
+
+
+</head>
+<body>
+    <div class="main-wthree">
+        <div class="container">
+            <div class="sin-w3-agile">
+                <h2>@Resource.KayıtOl</h2>
+                <form action="#" method="post">
+                    <div class="username">
+                        <span class="username">@Resource.Adi:</span>
+                        <input type="text" name="Name" id="Name" class="name" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="username">
+                        <span class="username">@Resource.Soyad:</span>
+                        <input type="text" name="Surname" id="Surname" class="name" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="username">
+                        <span class="username">@Resource.DogumYer:</span>
+                        <input type="text" name="BirthPlace" id="BirthPlace" class="name" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="username" style="margin-bottom:35px;">
+                        <span class="username">@Resource.DogumTarih:</span>
+                        <input type="date" id="BirthDate" style="width:404px; height:42px;" name="birthdate" class="form-control" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="username">
+                        <span class="username">@Resource.TcNo:</span>
+                        <input type="text" name="TrIdNo" class="name" id="TrIdNo" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="username" style="margin-bottom:35px;">
+                        <span class="username">@Resource.Bolum:</span>
+                        <select name="DepartmentID" id="DepartmentID" class="form-control" style="width:404px; height:42px; font-size:13px; line-height:42px;">
+                            @foreach (var item in Model)
+                            {
+                                <option value="@item.DepartmentID">@item.DepartmentName</option>
+                            }
+                        </select>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="username">
+                        <span class="username">@Resource.Resim:</span>
+                        <input type="file" name="Image" required="" accept="image/*" id="image" class="name" placeholder="">
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="username">
+                        <span class="username">@Resource.Email:</span>
+                        <input type="email" name="Email" class="name" id="Email" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="password-agileits">
+                        <span class="username">@Resource.Sifre:</span>
+                        <input type="password" name="Password" class="name" id="Password" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="login-w3">
+                        <input type="submit" class="login" id="Register" value="@Resource.KayıtOl">
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
+                <div class="back">
+                    <a href="/Login/SignIn">@Resource.ZatenHesap</a>
+                </div>
+                <div class="footer">
+                    <p>© @DateTime.Now.Year @Resource.Footer</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

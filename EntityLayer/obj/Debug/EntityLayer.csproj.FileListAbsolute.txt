@@ -1,0 +1,12 @@
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\bin\Debug\EntityLayer.dll.config
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\bin\Debug\EntityLayer.dll
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\bin\Debug\EntityLayer.pdb
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\bin\Debug\EntityFramework.dll
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\bin\Debug\EntityFramework.SqlServer.dll
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\bin\Debug\EntityFramework.xml
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\bin\Debug\EntityFramework.SqlServer.xml
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\obj\Debug\EntityLayer.dll
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\obj\Debug\EntityLayer.pdb
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\obj\Debug\EntityLayer.csprojAssemblyReference.cache
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\obj\Debug\EntityLayer.csproj.CoreCompileInputs.cache
+C:\YazilimKlasorleri\MVC\MvcStudentAutomation\EntityLayer\obj\Debug\EntityLayer.csproj.CopyComplete

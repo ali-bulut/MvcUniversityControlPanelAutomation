@@ -1,0 +1,121 @@
+﻿@using EntityLayer.Models.ViewModel
+@model TeacherLessonViewModel
+@{
+    ViewBag.Title = "Ders Notları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@foreach (var student in Model.Student.Where(x => x.StudentNumber == Convert.ToInt32(Session["StudentID"])))
+{
+    @section img{
+        <img src="~/StudentImages/@student.Image" alt="">
+    }
+}
+<script>
+    $(document).ready(function () {
+        $("#Lesson").change(function () {
+            var LessonID = $("#Lesson option:selected").val();
+            var ExamForm = $("#ExamForm");
+            ExamForm.css("display", "block");
+            if (LessonID != null && LessonID != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "/Student/BringExamNote",
+                    dataType: "JSON",
+                    data: { LessonID: LessonID },
+
+                    success: function (students) {
+                        var student = $("#students");
+                        var exam1 = $("#exam1");
+                        var exam2 = $("#exam2");
+                        $.each(students, function (index, student) {
+                            if (student.Exam1 != null && student.StudentNumber == parseInt(@Session["StudentID"])) {
+                                exam1.val(student.Exam1);
+                                exam1.attr("disabled", true);
+                            }
+                            else {
+                                exam1.val("1.Sınav Notunuz Henüz Açıklanmadı");
+                                exam1.attr("disabled", true);
+                            }
+                            if (student.Exam2 != null && student.StudentNumber == parseInt(@Session["StudentID"])) {
+                                exam2.val(student.Exam2);
+                                exam2.attr("disabled", true);
+                            }
+                            else {
+                                exam2.val("2.Sınav Notunuz Henüz Açıklanmadı");
+                                exam2.attr("disabled", true);
+                            }
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        alert("hata");
+                    },
+                    beforeSend: function () {
+
+                    },
+                    complete: function () {
+
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Anasayfa</a><i class="fa fa-angle-right"></i>Sınav Notları</li>
+</ol>
+
+<div class="grid-form1">
+    <div class="tab-content">
+        <div class="tab-pane active" id="horizontal-form">
+            <form class="form-horizontal" id="myForm" method="post" action="/Student/ExamNote">
+                <div class="form-group">
+                    <label for="selector1" class="col-sm-2 control-label">Ders Seçin</label>
+                    <div class="col-sm-8">
+                        <select name="LessonID" id="Lesson" class="form-control1">
+                            <option selected disabled>Dersi Seçiniz</option>
+                            @foreach (var item in Model.Lesson)
+                            {
+                                foreach (var item2 in item.StudentLessons)
+                                {
+                                    <option value="@item2.LessonID">@item.LessonName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid-form1" id="ExamForm" style="display:none;">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label hor-form">1.Sınav Notu</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="exam1" name="Exam1" placeholder="1.Sınav">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label hor-form">2.Sınav Notu</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="exam2" name="Exam2" placeholder="2.Sınav">
+                        </div>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!--inner block start here-->
+<div class="inner-block">
+
+</div> <br />
+<!--inner block end here-->
+<!--copy rights start here-->
+<div class="copyrights">
+    <p>© @DateTime.Now.Year Tüm Hakları Saklıdır | Ali Bulut Tarafından Dizayn Edildi</p>
+</div>

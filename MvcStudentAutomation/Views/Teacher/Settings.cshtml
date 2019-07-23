@@ -1,0 +1,71 @@
+﻿@using EntityLayer.Models
+@model IEnumerable<Teacher>
+@using MvcStudentAutomation.Resources
+@{
+    ViewBag.Title = "Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@foreach (var item in Model)
+{
+    @section img{
+    <img src="~/TeacherImages/@item.Image" alt="">
+    }
+    <div class="main-wthree">
+        <div class="container">
+            <div class="sin-w3-agile">
+                <h2>Profil</h2>
+                <form action="#" method="post">
+                    <div class="username">
+                        <span class="username">@Resource.Adi</span>
+                        <input type="text" name="Name" id="Name" class="name" value="@item.Name" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="username">
+                        <span class="username">@Resource.Soyad:</span>
+                        <input type="text" name="Surname" id="Surname" value="@item.Surname" class="name" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="username">
+                        <span class="username">@Resource.DogumYer:</span>
+                        <input type="text" name="BirthPlace" id="BirthPlace" value="@item.BirthPlace" class="name" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="username">
+                        <span class="username">@Resource.TcNo:</span>
+                        <input type="text" name="TrIdNo" class="name" disabled id="TrIdNo" value="@item.TrIdNo" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="username">
+                        <span class="username">@Resource.Resim:</span>
+                        <input type="file" name="Image" value="@item.Image" accept="image/*" id="image" class="name" placeholder="">
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="username">
+                        <span class="username">@Resource.Email:</span>
+                        <input type="email" name="Email" class="name" value="@item.Email" id="Email" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="password-agileits">
+                        <span class="username">@Resource.Sifre:</span>
+                        <input type="password" name="Password" class="name" value="@item.Password" id="Password" placeholder="" required="">
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="login-w3">
+                        <input type="submit" class="login" id="Register" value="Kaydet">
+                        @if (TempData["Message"] != null)
+                        {
+                            <script>alert("@TempData["Message"]")</script>
+                        }
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
+                <br /> <br />
+            </div>
+        </div>
+    </div>
+    <br /> <br />
+
+}
+

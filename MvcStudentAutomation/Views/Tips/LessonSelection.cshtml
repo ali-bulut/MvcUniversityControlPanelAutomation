@@ -1,0 +1,153 @@
+﻿@using EntityLayer.Models.ViewModel
+@model TeacherLessonViewModel
+
+@using MvcStudentAutomation.Resources
+@{
+    ViewBag.Title = Resource.DersSecim;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-3.2.1.min.js"></script>
+<script src="~/Scripts/jquery.session.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#table").basictable();
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $(".AddLesson").click(function () {
+            if (confirm("Dersi Almak İstediğinize Emin Misiniz?")) {
+                var ID = $(this).attr("name");
+
+                $.ajax({
+                    url: "/Tips/AddLesson/" + ID,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        alert(data);
+                        location.reload();
+                    }
+                });
+            }
+            
+        });
+    });
+</script>
+
+@foreach (var teacher in Model.Teacher)
+{
+    @section img{
+        <img src="~/TeacherImages/@teacher.Image" alt="">
+    }
+}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">@Resource.Anasayfa</a><i class="fa fa-angle-right"></i>@Resource.DersSecim</li>
+</ol>
+<!-- faq -->
+
+<div class="w3l-table-info">
+    <h2>@Resource.SeciliDers</h2>
+    <table id="table">
+        <thead>
+            <tr>
+                <th>Seçtiğiniz Dersler</th>
+                <th>Bu Dersi Seçen Öğrenciler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tl in Model.TeacherLesson)
+            {
+                foreach (var teacher in Model.Teacher)
+                {
+                    if (tl.TeacherID == teacher.TeacherID)
+                    {
+                        <tr>
+                            <td>@tl.Lesson.LessonName</td>
+                            <td>
+                                <shadow>
+                                    <select style="font-size:13px;">
+                                        @foreach (var student in tl.Lesson.StudentLessons.Where(x=>x.TeacherID==Convert.ToInt32(Session["ID"])))
+                                        {
+                                            <option value="@student.Student.StudentNumber">@student.Student.Name @student.Student.Surname</option>
+                                        }
+                                    </select>
+                                </shadow>
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+
+        </tbody>
+    </table>
+
+
+
+</div>
+
+<div class="w3l-table-info">
+    <h2>@Resource.ButunDers</h2>
+    <table id="table">
+        <thead>
+            <tr>
+                <th>@Resource.DersAd</th>
+                <th>Ekle</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Lesson)
+            { 
+                      <tr>
+                        <td>@item.LessonName</td>
+                        <td><a href="#" class="AddLesson" name="@item.LessonID">Dersi Ekle</a></td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+@*@foreach (var student in tl.Lesson.StudentLessons)
+    {
+        <tr>
+            <td>@student.Student.Name @student.Student.Surname</td>
+            <td>@student.StudentNumber</td>
+        </tr>
+
+    }*@
+
+
+@*<td><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Bak</button></td>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h2 class="modal-title" id="myModalLabel" style="color:black">Bu Dersi Seçen Öğrencilerin Listesi</h2>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+<!-- //faq -->
+<!-- script-for sticky-nav -->
+<!-- /script-for sticky-nav -->
+<!--inner block start here-->
+<div class="inner-block">
+
+</div>
+<!--inner block end here-->
+<!--copy rights start here-->
+<div class="copyrights">
+    <p>© @DateTime.Now.Year @Resource.Footer</p>
+</div>
+<!--COPY rights end here-->

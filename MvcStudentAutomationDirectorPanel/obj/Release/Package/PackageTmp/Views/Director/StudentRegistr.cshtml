@@ -1,0 +1,193 @@
+﻿@using EntityLayer.Models.ViewModel
+@model TeacherLessonViewModel
+@{
+    ViewBag.Title = "Öğrenci Başvuruları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(document).ready(function () {
+        $(".Onayla").click(function () {
+            if (confirm("Öğrenciyi Onaylamk İstediğinize Emin Misiniz?")) {
+                var StudentID = $(this).attr("id");
+                var onayciBir = $("#onayciBir option:selected").val();
+                var onayciIki = $("#onayciIki option:selected").val();
+                $.ajax({
+                    url: "/Director/ConfirmStudent",
+                    type: "POST",
+                    dataType: "json",
+                    data: { StudentID: StudentID, onayciBir: onayciBir, onayciIki: onayciIki },
+                    success: function (json) {
+                        if (json.isRedirect) {
+                            alert(json.message);
+                            window.location.href = json.redirectUrl;
+                        }
+                        if (json.isRedirect == false) {
+                            alert(json.message);
+                        }
+
+                    }
+                });
+            }
+
+        });
+
+        $(".Reddet").click(function () {
+            if (confirm("Öğrenciyi Reddetmek İstediğinize Emin Misiniz?")) {
+                var StudentID = $(this).attr("id");
+                $.ajax({
+                    url: "/Director/RefusalStudent",
+                    type: "POST",
+                    dataType: "json",
+                    data: { StudentID: StudentID },
+                    success: function (json) {
+                        if (json.isRedirect) {
+                            alert(json.message);
+                            window.location.href = json.redirectUrl;
+                        }
+                        if (json.isRedirect == false) {
+                            alert(json.message);
+                        }
+                    }
+                });
+            }
+        });
+
+        $("Button").click(function () {
+            var msg = $("#revizeTxt").val();
+
+            var studentID = $(this).attr("id");
+
+            $.ajax({
+                url: "/Director/Revize",
+                type: "POST",
+                dataType: "json",
+                data: { studentID: studentID, msg: msg },
+                success: function (json) {
+                    if (json.isRedirect) {
+                        alert(json.message);
+                        window.location.href = json.redirectUrl;
+                    }
+                    if (json.isRedirect == false) {
+                        alert(json.message);
+                    }
+                }
+            });
+        });
+        $('#table').basictable();
+    });
+
+</script>
+
+@foreach (var director in Model.Director)
+{
+    @section img{
+        <img src="~/DirectorImages/@director.Image" alt="">
+    }
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Anasayfa</a><i class="fa fa-angle-right"></i>Öğrenci Başvuruları</li>
+</ol>
+        <div class="w3l-table-info">
+            <h2>Bütün Başvurular</h2>
+            <table id="table">
+                <thead>
+                    <tr>
+                        <th>Öğrenci Adı</th>
+                        <th>Bölüm</th>
+                        <th>Email</th>
+                        <th>Başvuru Tarihi</th>
+                        <th>1.Onaycı</th>
+                        <th>2.Onaycı</th>
+                        <th>Onayla</th>
+                        <th>Revize</th>
+                        <th>Reddet</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model.StudentRegistration.Where(x => x.Status == null))
+                    {
+                        foreach (var item2 in Model.Department.Where(x => x.DepartmentID == item.DepartmentID))
+                        {
+                            <tr>
+                                <td>@item.Name @item.Surname</td>
+                                <td>@item2.DepartmentName</td>
+                                <td>@item.Email</td>
+                                <td>@string.Format("{0:d}", item.ApplicationDate)</td>
+                                <td>
+                                    <select id="onayciBir">
+                                        <option selected disabled>Öğretmeni Seçin</option>
+                                        @foreach (var item3 in Model.Teacher.Where(x => x.DepartmentID == item.DepartmentID))
+                                        {
+                                            <option value="@item3.TeacherID">@item3.Name @item3.Surname</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td>
+                                    <select id="onayciIki">
+                                        <option selected disabled>Öğretmeni Seçin</option>
+                                        @foreach (var item3 in Model.Teacher.Where(x => x.DepartmentID == item.DepartmentID))
+                                        {
+                                            <option value="@item3.TeacherID">@item3.Name @item3.Surname</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td><a href="#" class="Onayla" id="@item.StudentRegisterNo">Onayla</a></td>
+                                <td><a href="#" data-toggle="modal" data-target="#Revize" id="@item.StudentRegisterNo">Revize Talep Et</a></td>
+                                <td>
+
+
+                                    <div class="modal fade" id="Revize" tabindex="-1" role="dialog" aria-labelledby="RevizeLabel">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                                                    <h2 class="modal-title" id="OgrenciListesiLabel" style="color:black">Revize Etmek İstediğiniz Konu</h2>
+
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    @* Tablo *@
+                                                    <div class="w3l-table-info">
+                                                        <h2>@item.Name @item.Surname</h2>
+                                                        <table id="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Konu</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><input type="text" class="form-control" id="revizeTxt" placeholder="Revize Talep Etmek İstediğiniz Konu" /></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" id="@item.StudentRegisterNo" data-dismiss="modal">Revize Et</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <a href="#" class="Reddet" id="@item.StudentRegisterNo">Reddet</a>
+                                </td>
+                            </tr>
+                                        break;
+                        }
+
+
+                    }
+                </tbody>
+            </table>
+        </div>
+<div class="inner-block">
+
+</div>
+<div class="copyrights">
+    <p>© @DateTime.Now.Year Tüm Hakları Saklıdır | Ali Bulut Tarafından Dizayn Edildi</p>
+</div>
