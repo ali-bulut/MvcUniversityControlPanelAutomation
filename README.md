@@ -1,0 +1,2 @@
+# MvcUniversityControlPanelAutomation
+Üniversite kontrol paneli otomasyonu
